@@ -1,0 +1,6 @@
+---
+# tasks file for testrole
+
+- name: Show message
+  debug:
+    msg: We are in debug2 now! {{ message|default("xxxxx",true) }}

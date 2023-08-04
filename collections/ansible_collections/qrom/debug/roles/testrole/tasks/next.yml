@@ -1,0 +1,14 @@
+---
+# tasks file for testrole
+
+- name: Show message
+  debug:
+    msg: We are in NEXT testrole now! {{ message | default("Leuk!!",true) }}
+  tags:
+    - doen
+
+- name: Show message
+  debug:
+    msg: We are in NEXT 2 testrole now! {{ message | default("Leuk!!",true) }}
+  tags:
+    - doen2

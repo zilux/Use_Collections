@@ -1,0 +1,54 @@
+---
+- name: Use collection direct
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  roles:
+    - qrom.debug.testrole
+    - role: qrom.debug.testrole
+      vars:
+        message: okidoki
+      tags:
+        - tagin
+    - { role: qrom.debug.testrole , message: "just a test" }      
+
+  pre_tasks:
+    - debug:
+        msg: Pre task
+
+  post_tasks:
+    - debug:
+        msg: Post task
+
+  tasks:
+
+    - name: Include role from collection
+      include_role:
+        name: qrom.debug.testrole
+
+    # task_from een collection      
+    - name: Include task from collection with task_from
+      include_role: 
+        name: qrom.debug.testrole
+        tasks_from: next.yml
+      vars:
+        message: Fun stuff
+      tags: 
+        - doen
+        - doen2
+
+    # tags moeten bestaan in de tasks die met include_tasks gerunned worden
+    - name: Include task I from collection
+      include_tasks: "{{ playbook_dir }}/collections/ansible_collections/qrom/debug/roles/testrole/tasks/main.yml"
+      tags: doen
+
+    # tags hoeven niet te bestaan in de tasks die met import_tasks gerunned worden
+    - name: Include task I from collection
+      import_tasks: "{{ playbook_dir }}/collections/ansible_collections/qrom/debug/roles/testrole/tasks/debug2.yml"
+      tags: doen2
+
+- name: Include play        
+  import_playbook: qrom.debug.testplay
+  tags:
+    - doen

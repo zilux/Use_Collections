@@ -1,0 +1,10 @@
+---
+- name: Test from playbooks in collection
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - debug: 
+        msg: We are in PLAYBOOKS !!
